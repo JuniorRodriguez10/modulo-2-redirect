@@ -1,6 +1,6 @@
 # Módulo 2 – Servicio de Redirección (GET /{code})
 
-Este servicio recibe un código acortado y redirige (HTTP 302) hacia la URL original almacenada en DynamoDB. actions
+Este servicio recibe un código acortado y redirige (HTTP 302) hacia la URL original almacenada en DynamoDB. action
 
 ## Tecnologías
 - AWS Lambda
