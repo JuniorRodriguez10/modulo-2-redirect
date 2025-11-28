@@ -1,0 +1,10 @@
+{
+  "name": "redirect-lambda",
+  "version": "1.0.0",
+  "description": "Lambda de redirección para módulo 2",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "zip -r build/function.zip src"
+  },
+  "dependencies": {}
+}
