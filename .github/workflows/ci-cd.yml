@@ -1,0 +1,49 @@
+name: CI/CD - Redirect Module
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Install Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+
+    - name: Install dependencies
+      working-directory: ./src
+      run: npm install
+
+    - name: Zip Lambda
+      run: |
+        mkdir -p build
+        cd src
+        zip -r ../build/function.zip .
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+
+    - name: Terraform Init
+      working-directory: ./terraform
+      run: terraform init
+
+    - name: Terraform Apply
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: ${{ secrets.AWS_REGION }}
+        TF_VAR_dynamo_table_name: ${{ secrets.DYNAMO_TABLE_NAME }}
+      working-directory: ./terraform
+      run: terraform apply -auto-approve
+
+    - name: Show output
+      working-directory: ./terraform
+      run: terraform output -json
