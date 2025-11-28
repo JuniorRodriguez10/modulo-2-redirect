@@ -25,7 +25,7 @@ resource "aws_dynamodb_table" "shared_table" {
 
 # ------- ROLE PARA LAMBDA -------
 resource "aws_iam_role" "lambda_role" {
-  name = "redirect_lambda_role"
+  name = "redirect_lambda_role_v2"
 
   assume_role_policy = <<EOF
 {
@@ -70,7 +70,6 @@ resource "aws_iam_policy" "lambda_policy" {
 }
 EOF
 }
-
 resource "aws_iam_role_policy_attachment" "lambda_attach" {
   role       = aws_iam_role.lambda_role.name
   policy_arn = aws_iam_policy.lambda_policy.arn
